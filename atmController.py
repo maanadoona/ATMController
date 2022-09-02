@@ -25,56 +25,79 @@ class AtmController():
         self.withdraw = 300
 
     def InsertCard(self, card):
+        print("[STEP1] Insert Card")
         self.cardStatus = card
 
         return self.cardStatus
 
     def PINnumber(self, pin):
-        # PIN Number Rule Check
-        if len(pin) != 4:   # 1) size : 4
-            self.pinStatus = PinStatus.Incorrect
-        else:               # 2) 0~9
-            if pin.isdigit() is False:
+        print("[STEP2] PIN number")
+        if self.cardStatus == CardStatus.NotInserted:
+            return CardStatus.NotInserted
+        else:
+            # PIN Number Rule Check
+            if len(pin) != 4:   # 1) size : 4
                 self.pinStatus = PinStatus.Incorrect
-            else:
-                if pin != self.pinNumber:   # 3) PIN code wrong
+            else:               # 2) 0~9
+                if pin.isdigit() is False:
                     self.pinStatus = PinStatus.Incorrect
                 else:
-                    self.pinStatus = PinStatus.Correct
-                    self.pinNumber = pin
+                    if pin != self.pinNumber:   # 3) PIN code wrong
+                        self.pinStatus = PinStatus.Incorrect
+                    else:
+                        self.pinStatus = PinStatus.Correct
+                        self.pinNumber = pin
 
-        return self.pinStatus
+            return self.pinStatus
 
     def SelectAccount(self, account):
-        # Account Rule Check
-        if len(account) != 8:   # 1) size : 8
-            self.accountStatus = AccountStatus.NotSelected
+        print("[STEP3] Select Account")
+        if self.cardStatus == CardStatus.NotInserted:
+            return CardStatus.NotInserted
         else:
-            if account[3] != '-':   # 2) hyphen check
+            # Account Rule Check
+            if len(account) != 8:   # 1) size : 8
                 self.accountStatus = AccountStatus.NotSelected
             else:
-                accFormer = account[:2]
-                if accFormer.isdigit() is False:    # 3) Former Num check
+                if account[3] != '-':   # 2) hyphen check
                     self.accountStatus = AccountStatus.NotSelected
                 else:
-                    accLast = account[4:]
-                    if accLast.isdigit() is False:  # 4) Last Num check
+                    accFormer = account[:2]
+                    if accFormer.isdigit() is False:    # 3) Former Num check
                         self.accountStatus = AccountStatus.NotSelected
-                    else:   # Okay
-                        self.accountStatus = AccountStatus.Selected
-                        self.account = account
-                        b, d, w = self.ShowAccountInfo()
-                        print(b, d, w)
+                    else:
+                        accLast = account[4:]
+                        if accLast.isdigit() is False:  # 4) Last Num check
+                            self.accountStatus = AccountStatus.NotSelected
+                        else:   # Okay
+                            self.accountStatus = AccountStatus.Selected
+                            self.account = account
+                            print("[STEP4] See Balance/Deposit/Withdraw")
+                            b, d, w = self.ShowAccountInfo()
+                            print(b, d, w)
 
-        return self.accountStatus
+            return self.accountStatus
 
     def ShowAccountInfo(self):
         return self.balance, self.deposit, self.withdraw
 
-
+'''
+# Test 1 : Normal Case
 atm = AtmController()
 ret = atm.InsertCard(CardStatus.Inserted)
 print(ret)
+ret = atm.PINnumber("1234")
+print(ret)
+ret = atm.SelectAccount("123-4567")
+print(ret)
+'''
+
+# Test 2 : Card isn't inserted
+atm = AtmController()
+ret = atm.InsertCard(CardStatus.NotInserted)
+print(ret)
+# ret = atm.InsertCard(CardStatus.Inserted)
+# print(ret)
 ret = atm.PINnumber("1234")
 print(ret)
 ret = atm.SelectAccount("123-4567")
