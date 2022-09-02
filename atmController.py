@@ -16,17 +16,18 @@ class AccountStatus(Enum):
 class AtmController():
     def __init__(self):
         self.cardStatus = CardStatus.NotInserted
-        self.pinNumber = "0000"
+        self.pinNumber = "1234"
         self.pinStatus = PinStatus.Incorrect
         self.account = "123-4567"
         self.accountStatus = AccountStatus.NotSelected
-        self.balance = 0
-        self.deposit = 0
-        self.withdraw = 0
+        self.balance = 700
+        self.deposit = 1000
+        self.withdraw = 300
 
     def InsertCard(self, card):
         self.cardStatus = card
-        pass
+
+        return self.cardStatus
 
     def PINnumber(self, pin):
         # PIN Number Rule Check
@@ -36,12 +37,17 @@ class AtmController():
             if pin.isdigit() is False:
                 self.pinStatus = PinStatus.Incorrect
             else:
-                self.pinStatus = PinStatus.Correct
-                self.pinNumber = pin
+                if pin != self.pinNumber:   # 3) PIN code wrong
+                    self.pinStatus = PinStatus.Incorrect
+                else:
+                    self.pinStatus = PinStatus.Correct
+                    self.pinNumber = pin
+
+        return self.pinStatus
 
     def SelectAccount(self, account):
         # Account Rule Check
-        if len(account) != 7:   # 1) size : 8
+        if len(account) != 8:   # 1) size : 8
             self.accountStatus = AccountStatus.NotSelected
         else:
             if account[3] != '-':   # 2) hyphen check
@@ -57,6 +63,20 @@ class AtmController():
                     else:   # Okay
                         self.accountStatus = AccountStatus.Selected
                         self.account = account
+                        b, d, w = self.ShowAccountInfo()
+                        print(b, d, w)
+
+        return self.accountStatus
 
     def ShowAccountInfo(self):
         return self.balance, self.deposit, self.withdraw
+
+
+atm = AtmController()
+ret = atm.InsertCard(CardStatus.Inserted)
+print(ret)
+ret = atm.PINnumber("1234")
+print(ret)
+ret = atm.SelectAccount("123-4567")
+print(ret)
+
