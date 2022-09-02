@@ -54,6 +54,8 @@ class AtmController():
         print("[STEP3] Select Account")
         if self.cardStatus == CardStatus.NotInserted:
             return CardStatus.NotInserted
+        elif self.pinStatus == PinStatus.Incorrect:
+            return PinStatus.Incorrect
         else:
             # Account Rule Check
             if len(account) != 8:   # 1) size : 8
@@ -92,6 +94,7 @@ ret = atm.SelectAccount("123-4567")
 print(ret)
 '''
 
+'''
 # Test 2 : Card isn't inserted
 atm = AtmController()
 ret = atm.InsertCard(CardStatus.NotInserted)
@@ -102,4 +105,19 @@ ret = atm.PINnumber("1234")
 print(ret)
 ret = atm.SelectAccount("123-4567")
 print(ret)
+'''
 
+# Test 3 : Pincode Passing
+atm = AtmController()
+#ret = atm.InsertCard(CardStatus.NotInserted)
+#print(ret)
+ret = atm.InsertCard(CardStatus.Inserted)
+print(ret)
+#ret = atm.PINnumber("1234")
+#print(ret)
+ret = atm.SelectAccount("123-4567")
+print(ret)
+ret = atm.PINnumber("1234")
+print(ret)
+ret = atm.SelectAccount("123-4567")
+print(ret)
