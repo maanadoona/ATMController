@@ -28,12 +28,12 @@ class AtmController():
         print("[STEP1] Insert Card")
         self.cardStatus = card
 
-        return self.cardStatus
+        return self.ShowCardStatus(self.cardStatus)
 
     def PINnumber(self, pin):
         print("[STEP2] PIN number")
         if self.cardStatus == CardStatus.NotInserted:
-            return CardStatus.NotInserted
+            return self.ShowCardStatus(CardStatus.NotInserted)
         else:
             # PIN Number Rule Check
             if len(pin) != 4:   # 1) size : 4
@@ -48,14 +48,14 @@ class AtmController():
                         self.pinStatus = PinStatus.Correct
                         self.pinNumber = pin
 
-            return self.pinStatus
+            return self.ShowPinStatus(self.pinStatus)
 
     def SelectAccount(self, account):
         print("[STEP3] Select Account")
         if self.cardStatus == CardStatus.NotInserted:
-            return CardStatus.NotInserted
+            return self.ShowCardStatus(CardStatus.NotInserted)
         elif self.pinStatus == PinStatus.Incorrect:
-            return PinStatus.Incorrect
+            return self.ShowPinStatus(PinStatus.Incorrect)
         else:
             # Account Rule Check
             if len(account) != 8:   # 1) size : 8
@@ -78,12 +78,30 @@ class AtmController():
                             b, d, w = self.ShowAccountInfo()
                             print(b, d, w)
 
-            return self.accountStatus
-
+            return self.ShowSelectAccount(self.accountStatus)
+    
     def ShowAccountInfo(self):
         return self.balance, self.deposit, self.withdraw
 
-'''
+    def ShowCardStatus(self, status):
+        if status == CardStatus.NotInserted:
+            return "Please, Insert Card."
+        elif status == CardStatus.Inserted:
+            return "Card Detected, Please Input the pincode."
+
+    def ShowPinStatus(self, status):
+        if status == PinStatus.Incorrect:
+            return "Invalid Pincode, Try Again."
+        elif status == PinStatus.Correct:
+            return "Valid Pincode, Select Account Please."
+
+    def ShowSelectAccount(self, status):
+        if status == AccountStatus.NotSelected:
+            return "Wrong Account Number, Check your Account again."
+        elif status == AccountStatus.Selected:
+            return "Okay. Please wait a second."
+
+
 # Test 1 : Normal Case
 atm = AtmController()
 ret = atm.InsertCard(CardStatus.Inserted)
@@ -92,7 +110,7 @@ ret = atm.PINnumber("1234")
 print(ret)
 ret = atm.SelectAccount("123-4567")
 print(ret)
-'''
+
 
 '''
 # Test 2 : Card isn't inserted
@@ -107,6 +125,7 @@ ret = atm.SelectAccount("123-4567")
 print(ret)
 '''
 
+'''
 # Test 3 : Pincode Passing
 atm = AtmController()
 #ret = atm.InsertCard(CardStatus.NotInserted)
@@ -121,3 +140,4 @@ ret = atm.PINnumber("1234")
 print(ret)
 ret = atm.SelectAccount("123-4567")
 print(ret)
+'''
