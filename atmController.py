@@ -64,20 +64,19 @@ class AtmController():
                 if account[3] != '-':   # 2) hyphen check
                     self.accountStatus = AccountStatus.NotSelected
                 else:
-                    accFormer = account[:2]
+                    accFormer = account[:3]
                     if accFormer.isdigit() is False:    # 3) Former Num check
                         self.accountStatus = AccountStatus.NotSelected
-                        return self.ShowSelectAccount(self.accountStatus)
                     else:
                         accLast = account[4:]
                         if accLast.isdigit() is False:  # 4) Last Num check
                             self.accountStatus = AccountStatus.NotSelected
                         else:   # Okay
-                            self.accountStatus = AccountStatus.Selected
-                            self.account = account
-                            # print("[STEP4] See Balance/Deposit/Withdraw")
-                            # b, d, w = self.ShowAccountInfo()
-                            # print(b, d, w)
+                            if self.account != account:
+                                self.accountStatus = AccountStatus.NotSelected
+                            else:
+                                self.accountStatus = AccountStatus.Selected
+                                self.account = account
 
             return self.ShowSelectAccount(self.accountStatus)
 
@@ -160,14 +159,29 @@ ret = atm.SelectAccount("123-4567")
 print(ret)
 ret = atm.PINnumber("1234")
 print(ret)
-ret = atm.SelectAccount("123-4567")
+
+ret = atm.SelectAccount("13m-3232")
 print(ret)
 ret = atm.SeeAccount()
 print(ret)
 
-ret = atm.SelectAccount("13m-3232")
+ret = atm.SelectAccount("133-k235")
+print(ret)
+ret = atm.SeeAccount()
 print(ret)
 
+ret = atm.SelectAccount("133-723g")
+print(ret)
+ret = atm.SeeAccount()
+print(ret)
+
+ret = atm.SelectAccount("133-7235")
+print(ret)
+ret = atm.SeeAccount()
+print(ret)
+
+ret = atm.SelectAccount("123-4567")
+print(ret)
 ret = atm.SeeAccount()
 print(ret)
 '''
