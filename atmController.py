@@ -39,6 +39,8 @@ class AtmController():
     def PINnumber(self, pin):
         print("[STEP2] PIN number")
         if self.cardStatus == CardStatus.NotInserted:
+            self.pinStatus = PinStatus.Incorrect
+            self.accountStatus == AccountStatus.NotSelected
             return self.ShowCardStatus(self.cardStatus)
         else:
             # PIN Number Rule Check
@@ -59,8 +61,11 @@ class AtmController():
     def SelectAccount(self, account):
         print("[STEP3] Select Account")
         if self.cardStatus == CardStatus.NotInserted:
+            self.pinStatus = PinStatus.Incorrect
+            self.accountStatus = AccountStatus.NotSelected
             return self.ShowCardStatus(self.cardStatus)
         elif self.pinStatus == PinStatus.Incorrect:
+            self.accountStatus == AccountStatus.NotSelected
             return self.ShowPinStatus(self.pinStatus)
         else:
             # Account Rule Check
@@ -89,8 +94,11 @@ class AtmController():
     def SeeAccount(self):
         print("[STEP4] See Balance/Deposit/Withdraw")
         if self.cardStatus == CardStatus.NotInserted:
+            self.pinStatus = PinStatus.Incorrect
+            self.accountStatus == AccountStatus.NotSelected
             return self.ShowCardStatus(self.cardStatus)
         elif self.pinStatus == PinStatus.Incorrect:
+            self.accountStatus == AccountStatus.NotSelected
             return self.ShowPinStatus(self.pinStatus)
         elif self.accountStatus == AccountStatus.NotSelected:
             return self.ShowSelectAccount(self.accountStatus)
@@ -138,6 +146,7 @@ print(ret)
 '''
 
 '''
+
 # Test 2 : Card isn't inserted
 atm = AtmController()
 ret = atm.InsertCard(CardStatus.NotInserted)
@@ -151,7 +160,7 @@ print(ret)
 ret = atm.SeeAccount()
 print(ret)
 '''
-
+'''
 # Test 3 : Pincode Passing
 atm = AtmController()
 #ret = atm.InsertCard(CardStatus.NotInserted)
@@ -189,4 +198,43 @@ ret = atm.SelectAccount("123-4567")
 print(ret)
 ret = atm.SeeAccount()
 print(ret)
+'''
 
+'''
+# Test 4 : Card Re-insert
+atm = AtmController()
+
+ret = atm.InsertCard(CardStatus.Inserted)
+print(ret)
+ret = atm.PINnumber("1234")
+print(ret)
+ret = atm.SelectAccount("123-4567")
+print(ret)
+
+ret = atm.InsertCard(CardStatus.NotInserted)
+print(ret)
+
+ret = atm.SelectAccount("123-4567")
+print(ret)
+
+ret = atm.InsertCard(CardStatus.Inserted)
+print(ret)
+
+ret = atm.SelectAccount("123-4567")
+print(ret)
+
+ret = atm.SeeAccount()
+print(ret)
+
+ret = atm.PINnumber("1234")
+print(ret)
+
+ret = atm.SeeAccount()
+print(ret)
+
+ret = atm.SelectAccount("123-4567")
+print(ret)
+
+ret = atm.SeeAccount()
+print(ret)
+'''
