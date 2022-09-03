@@ -5,16 +5,22 @@ class CardStatus(Enum):
     NotInserted = 0
     Inserted = 1
 
+
 class PinStatus(Enum):
     Incorrect = 0
     Correct = 1
+
 
 class AccountStatus(Enum):
     NotSelected = 0
     Selected = 1
 
+
 class AtmController():
     def __init__(self):
+        self.PINNUM_LEN = 4
+        self.ACCOUNT_LEN = 8
+        self.ACCOUNT_HYPHEN = 3
         self.cardStatus = CardStatus.NotInserted
         self.pinNumber = "1234"
         self.pinStatus = PinStatus.Incorrect
@@ -36,7 +42,7 @@ class AtmController():
             return self.ShowCardStatus(self.cardStatus)
         else:
             # PIN Number Rule Check
-            if len(pin) != 4:   # 1) size : 4
+            if len(pin) != self.PINNUM_LEN:   # 1) size : 4
                 self.pinStatus = PinStatus.Incorrect
             else:               # 2) 0~9
                 if pin.isdigit() is False:
@@ -58,18 +64,18 @@ class AtmController():
             return self.ShowPinStatus(self.pinStatus)
         else:
             # Account Rule Check
-            if len(account) != 8:   # 1) size : 8
+            if len(account) != self.ACCOUNT_LEN:   # 1) size : 8
                 self.accountStatus = AccountStatus.NotSelected
             else:
-                if account[3] != '-':   # 2) hyphen check
+                if account[self.ACCOUNT_HYPHEN] != '-':   # 2) hyphen check
                     self.accountStatus = AccountStatus.NotSelected
                 else:
-                    accFormer = account[:3]
-                    if accFormer.isdigit() is False:    # 3) Former Num check
+                    accountLeft = account[:self.ACCOUNT_HYPHEN]
+                    if accountLeft.isdigit() is False:    # 3) Left Num check
                         self.accountStatus = AccountStatus.NotSelected
                     else:
-                        accLast = account[4:]
-                        if accLast.isdigit() is False:  # 4) Last Num check
+                        accountRight = account[self.ACCOUNT_HYPHEN+1:]
+                        if accountRight.isdigit() is False:  # 4) Right Num check
                             self.accountStatus = AccountStatus.NotSelected
                         else:   # Okay
                             if self.account != account:
@@ -95,7 +101,7 @@ class AtmController():
             print("* Deposit : %d dollar(s)" %(d))
             print("* Withdraw : %d dollar(s)" %(w))
 
-        return "<Thank you>"
+        return b, d, w
 
     def GetAccountInfo(self):
         return self.balance, self.deposit, self.withdraw
@@ -146,7 +152,6 @@ ret = atm.SeeAccount()
 print(ret)
 '''
 
-'''
 # Test 3 : Pincode Passing
 atm = AtmController()
 #ret = atm.InsertCard(CardStatus.NotInserted)
@@ -184,4 +189,4 @@ ret = atm.SelectAccount("123-4567")
 print(ret)
 ret = atm.SeeAccount()
 print(ret)
-'''
+
