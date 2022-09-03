@@ -33,7 +33,7 @@ class AtmController():
     def PINnumber(self, pin):
         print("[STEP2] PIN number")
         if self.cardStatus == CardStatus.NotInserted:
-            return self.ShowCardStatus(CardStatus.NotInserted)
+            return self.ShowCardStatus(self.cardStatus)
         else:
             # PIN Number Rule Check
             if len(pin) != 4:   # 1) size : 4
@@ -53,9 +53,9 @@ class AtmController():
     def SelectAccount(self, account):
         print("[STEP3] Select Account")
         if self.cardStatus == CardStatus.NotInserted:
-            return self.ShowCardStatus(CardStatus.NotInserted)
+            return self.ShowCardStatus(self.cardStatus)
         elif self.pinStatus == PinStatus.Incorrect:
-            return self.ShowPinStatus(PinStatus.Incorrect)
+            return self.ShowPinStatus(self.pinStatus)
         else:
             # Account Rule Check
             if len(account) != 8:   # 1) size : 8
@@ -67,6 +67,7 @@ class AtmController():
                     accFormer = account[:2]
                     if accFormer.isdigit() is False:    # 3) Former Num check
                         self.accountStatus = AccountStatus.NotSelected
+                        return self.ShowSelectAccount(self.accountStatus)
                     else:
                         accLast = account[4:]
                         if accLast.isdigit() is False:  # 4) Last Num check
@@ -74,13 +75,30 @@ class AtmController():
                         else:   # Okay
                             self.accountStatus = AccountStatus.Selected
                             self.account = account
-                            print("[STEP4] See Balance/Deposit/Withdraw")
-                            b, d, w = self.ShowAccountInfo()
-                            print(b, d, w)
+                            # print("[STEP4] See Balance/Deposit/Withdraw")
+                            # b, d, w = self.ShowAccountInfo()
+                            # print(b, d, w)
 
             return self.ShowSelectAccount(self.accountStatus)
-    
-    def ShowAccountInfo(self):
+
+    def SeeAccount(self):
+        print("[STEP4] See Balance/Deposit/Withdraw")
+        if self.cardStatus == CardStatus.NotInserted:
+            return self.ShowCardStatus(self.cardStatus)
+        elif self.pinStatus == PinStatus.Incorrect:
+            return self.ShowPinStatus(self.pinStatus)
+        elif self.accountStatus == AccountStatus.NotSelected:
+            return self.ShowSelectAccount(self.accountStatus)
+        else:
+            b, d, w = self.GetAccountInfo()
+            print("* Your Account {%s} Information *" %(self.account))
+            print("* Balance : %d dollar(s)" %(b))
+            print("* Deposit : %d dollar(s)" %(d))
+            print("* Withdraw : %d dollar(s)" %(w))
+
+        return "<Thank you>"
+
+    def GetAccountInfo(self):
         return self.balance, self.deposit, self.withdraw
 
     def ShowCardStatus(self, status):
@@ -101,7 +119,7 @@ class AtmController():
         elif status == AccountStatus.Selected:
             return "Okay. Please wait a second."
 
-
+'''
 # Test 1 : Normal Case
 atm = AtmController()
 ret = atm.InsertCard(CardStatus.Inserted)
@@ -110,7 +128,9 @@ ret = atm.PINnumber("1234")
 print(ret)
 ret = atm.SelectAccount("123-4567")
 print(ret)
-
+ret = atm.SeeAccount()
+print(ret)
+'''
 
 '''
 # Test 2 : Card isn't inserted
@@ -122,6 +142,8 @@ print(ret)
 ret = atm.PINnumber("1234")
 print(ret)
 ret = atm.SelectAccount("123-4567")
+print(ret)
+ret = atm.SeeAccount()
 print(ret)
 '''
 
@@ -139,5 +161,13 @@ print(ret)
 ret = atm.PINnumber("1234")
 print(ret)
 ret = atm.SelectAccount("123-4567")
+print(ret)
+ret = atm.SeeAccount()
+print(ret)
+
+ret = atm.SelectAccount("13m-3232")
+print(ret)
+
+ret = atm.SeeAccount()
 print(ret)
 '''
