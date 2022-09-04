@@ -59,7 +59,13 @@ class AtmController:
 
     def InsertCard(self, card):
         print("[STEP1] Insert Card")
-        self.cardStatus = card
+        if card == "INSERT":
+            self.cardStatus = CardStatus.Inserted
+        elif card == "REJECT":
+            self.cardStatus = CardStatus.NotInserted
+        else:
+            self.cardStatus = CardStatus.NotInserted
+            return card + ":WRONG MSG"
 
         return self.ShowCardStatus(self.cardStatus)
 
@@ -162,120 +168,3 @@ class AtmController:
             return "Wrong Account Number, Check your Account again."
         elif status == AccountStatus.Selected:
             return "Okay. You can see your account now"
-
-
-# Test 1 : Normal Case
-atm = AtmController()
-ret = atm.InsertCard(CardStatus.Inserted)
-print(ret)
-ret = atm.PINnumber("1234")
-print(ret)
-
-ret = atm.SelectAccount("123-4567")
-print(ret)
-ret = atm.SeeAccount()
-print(ret)
-
-ret = atm.SelectAccount("111-2222")
-print(ret)
-ret = atm.SeeAccount()
-print(ret)
-
-ret = atm.SelectAccount("333-4444")
-print(ret)
-ret = atm.SeeAccount()
-print(ret)
-
-'''
-
-# Test 2 : Card isn't inserted
-atm = AtmController()
-ret = atm.InsertCard(CardStatus.NotInserted)
-print(ret)
-# ret = atm.InsertCard(CardStatus.Inserted)
-# print(ret)
-ret = atm.PINnumber("1234")
-print(ret)
-ret = atm.SelectAccount("123-4567")
-print(ret)
-ret = atm.SeeAccount()
-print(ret)
-'''
-'''
-# Test 3 : Pincode Passing
-atm = AtmController()
-#ret = atm.InsertCard(CardStatus.NotInserted)
-#print(ret)
-ret = atm.InsertCard(CardStatus.Inserted)
-print(ret)
-#ret = atm.PINnumber("1234")
-#print(ret)
-ret = atm.SelectAccount("123-4567")
-print(ret)
-ret = atm.PINnumber("1234")
-print(ret)
-
-ret = atm.SelectAccount("13m-3232")
-print(ret)
-ret = atm.SeeAccount()
-print(ret)
-
-ret = atm.SelectAccount("133-k235")
-print(ret)
-ret = atm.SeeAccount()
-print(ret)
-
-ret = atm.SelectAccount("133-723g")
-print(ret)
-ret = atm.SeeAccount()
-print(ret)
-
-ret = atm.SelectAccount("133-7235")
-print(ret)
-ret = atm.SeeAccount()
-print(ret)
-
-ret = atm.SelectAccount("123-4567")
-print(ret)
-ret = atm.SeeAccount()
-print(ret)
-'''
-
-'''
-# Test 4 : Card Re-insert
-atm = AtmController()
-
-ret = atm.InsertCard(CardStatus.Inserted)
-print(ret)
-ret = atm.PINnumber("1234")
-print(ret)
-ret = atm.SelectAccount("123-4567")
-print(ret)
-
-ret = atm.InsertCard(CardStatus.NotInserted)
-print(ret)
-
-ret = atm.SelectAccount("123-4567")
-print(ret)
-
-ret = atm.InsertCard(CardStatus.Inserted)
-print(ret)
-
-ret = atm.SelectAccount("123-4567")
-print(ret)
-
-ret = atm.SeeAccount()
-print(ret)
-
-ret = atm.PINnumber("1234")
-print(ret)
-
-ret = atm.SeeAccount()
-print(ret)
-
-ret = atm.SelectAccount("123-4567")
-print(ret)
-
-ret = atm.SeeAccount()
-print(ret)
-'''
