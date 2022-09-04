@@ -32,13 +32,13 @@ You just call the function of '''SeeAccount'''. You will get the Balance/Deposit
 
 | Num | Name | Input |Output|
 |:----:|:------------|:------------------------|:------------------------|
-|1      |InsertCard|string belows.|
-| |                |"REJECT", "INSERT"        |
-|2| PINnumber      | 4 digit string.          |
-| |                | ex) "1234"               |
-|3| SelectAccount  |8 string.                 |
-| |                |ex) "123-4567"            |
-|4| SeeAccount     |None                      |
+|1     |InsertCard   |string belows.           |"INSERT" : "Card Detected, Please Input the pincode."
+|      |             |"REJECT", "INSERT"       |"REJECT" : "Please, Insert Card."
+|2     |PINnumber    |4 digit string.          | Valid : "Valid Pincode, Select Account Please."
+|      |             |ex) "1234"               | Invalid : "Invalid Pincode, Try Again."
+|3     |SelectAccount|8 string.                | Valid : list of accounts. ex) ["123-4567", "111-2222", "333-4444"]
+|      |             |ex) "123-4567"           | Invalid : "Wrong Account Number, Check your Account again."
+|4     |SeeAccount   |None                     | Three values. (Balance, Deposit, Withdraw) ex) (700, 1000, 300)
 
 
 
