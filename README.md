@@ -29,7 +29,6 @@ You just call the function of '''SeeAccount'''. You will get the Balance/Deposit
 
 ## API Usage
 
-
 | Num | Name | Input |Output|
 |:----:|:------------|:------------------------|:------------------------|
 |1     |InsertCard   |string belows.           |"INSERT" : "Card Detected, Please Input the pincode."
@@ -40,6 +39,47 @@ You just call the function of '''SeeAccount'''. You will get the Balance/Deposit
 |      |             |ex) "123-4567"           | Invalid : "Wrong Account Number, Check your Account again."
 |4     |SeeAccount   |None                     | Three values. (Balance, Deposit, Withdraw) ex) (700, 1000, 300)
 
+
+
+## Test Case
+
+#### Test 1 : Normal Case
+
+ This is test for normal case. All steps are right things.
+
+
+
+#### Test 2 : Card Insert Case
+
+ Card Insert Parameter has three things. "INSERT", "REJECT" and Other all characters(Wrong commands).
+
+
+
+#### Test 3 : Pin number Case
+
+ Pin number has 4-digit value.  Wrong pin number or Skip of this step makes error. 
+
+
+
+#### Test 4 : Account Case
+
+ After two steps, you get the account list. If you send wrong account number, you can't get the account information. 
+
+
+
+#### Test 5 : Step Flow Case
+
+If card is rejected at any step, It will go back to step 1 (Card Insert Check). You need to start again from step 1.
+
+
+
+##  How to run
+
+```bash
+python atmTest.py [number(1~5)]
+
+ex) python atmTest.py 1
+```
 
 
 
