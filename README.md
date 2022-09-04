@@ -29,6 +29,12 @@ You just call the function of '''SeeAccount'''. You will get the Balance/Deposit
 
 ## API Usage
 
++------------+--------------------------------------------+
+| Ctrl + u   | Load all of the images from a directory    |
++------------+--------------------------------------------+
+| Ctrl + r   | Change the default annotation target dir   |
++------------+--------------------------------------------+
+
 +---+----------------+--------------------------+
 |Num| Name           |Input                     |
 +---+----------------+--------------------------+
