@@ -30,16 +30,16 @@ You just call the function of '''SeeAccount'''. You will get the Balance/Deposit
 ## API Usage
 
 
-| Num | Name | Input |
-|:----:|:------------|:------------------------|
-|1|InsertCard|string belows.|
-|   |                |"REJECT", "INSERT"        |
-| 2 | PINnumber      | 4 digit string.          |
-|   |                | ex) "1234"               |
-| 3 | SelectAccount  |8 string.                 |
-|   |                |ex) "123-4567"            |
-| 4 | SeeAccount     |None                      |
--------------------------------------------------
+| Num | Name | Input |Output|
+|:----:|:------------|:------------------------|:------------------------|
+|1      |InsertCard|string belows.|
+| |                |"REJECT", "INSERT"        |
+|2| PINnumber      | 4 digit string.          |
+| |                | ex) "1234"               |
+|3| SelectAccount  |8 string.                 |
+| |                |ex) "123-4567"            |
+|4| SeeAccount     |None                      |
+
 
 
 
