@@ -16,7 +16,25 @@ class AccountStatus(Enum):
     Selected = 1
 
 
-class AtmController():
+class AccountInfo:
+    def __init__(self, name):
+        self.name = name
+        self.balance = 0
+        self.deposit = 0
+        self.withdraw = 0
+
+    def Deposit(self, d):
+        self.deposit += d
+        self.balance = self.deposit - self.withdraw
+
+    def Withdraw(self, w):
+        self.withdraw += w
+        self.balance = self.deposit - self.withdraw
+
+    def GetInfo(self):
+        return self.balance, self.deposit, self.withdraw
+
+class AtmController:
     def __init__(self):
         self.PINNUM_LEN = 4
         self.ACCOUNT_LEN = 8
@@ -24,11 +42,20 @@ class AtmController():
         self.cardStatus = CardStatus.NotInserted
         self.pinNumber = "1234"
         self.pinStatus = PinStatus.Incorrect
-        self.account = "123-4567"
         self.accountStatus = AccountStatus.NotSelected
-        self.balance = 700
-        self.deposit = 1000
-        self.withdraw = 300
+        self.account = ""
+        self.account1 = AccountInfo("123-4567")
+        self.account1.Deposit(1000)
+        self.account1.Withdraw(500)
+        self.account2 = AccountInfo("111-2222")
+        self.account2.Deposit(2000)
+        self.account2.Withdraw(300)
+        self.account3 = AccountInfo("333-4444")
+        self.account3.Deposit(500)
+        self.account3.Withdraw(20)
+
+        self.accountList = [self.account1, self.account2, self.account3]
+
 
     def InsertCard(self, card):
         print("[STEP1] Insert Card")
@@ -56,7 +83,11 @@ class AtmController():
                         self.pinStatus = PinStatus.Correct
                         self.pinNumber = pin
 
+        if self.pinStatus == PinStatus.Incorrect:
             return self.ShowPinStatus(self.pinStatus)
+        else:
+            return [a.name for a in self.accountList]
+
 
     def SelectAccount(self, account):
         print("[STEP3] Select Account")
@@ -83,11 +114,13 @@ class AtmController():
                         if accountRight.isdigit() is False:  # 4) Right Num check
                             self.accountStatus = AccountStatus.NotSelected
                         else:   # Okay
-                            if self.account != account:
-                                self.accountStatus = AccountStatus.NotSelected
+                            for a in self.accountList:
+                                if account == a.name:
+                                    self.accountStatus = AccountStatus.Selected
+                                    self.account = a
+                                    break
                             else:
-                                self.accountStatus = AccountStatus.Selected
-                                self.account = account
+                                self.accountStatus = AccountStatus.NotSelected
 
             return self.ShowSelectAccount(self.accountStatus)
 
@@ -103,16 +136,14 @@ class AtmController():
         elif self.accountStatus == AccountStatus.NotSelected:
             return self.ShowSelectAccount(self.accountStatus)
         else:
-            b, d, w = self.GetAccountInfo()
-            print("* Your Account {%s} Information *" %(self.account))
+            b, d, w = self.account.GetInfo()
+            print("***************************************")
+            print("* Your Account {%s} Information *" %(self.account.name))
             print("* Balance : %d dollar(s)" %(b))
             print("* Deposit : %d dollar(s)" %(d))
             print("* Withdraw : %d dollar(s)" %(w))
-
-        return b, d, w
-
-    def GetAccountInfo(self):
-        return self.balance, self.deposit, self.withdraw
+            print("***************************************")
+            return b, d, w
 
     def ShowCardStatus(self, status):
         if status == CardStatus.NotInserted:
@@ -130,20 +161,30 @@ class AtmController():
         if status == AccountStatus.NotSelected:
             return "Wrong Account Number, Check your Account again."
         elif status == AccountStatus.Selected:
-            return "Okay. Please wait a second."
+            return "Okay. You can see your account now"
 
-'''
+
 # Test 1 : Normal Case
 atm = AtmController()
 ret = atm.InsertCard(CardStatus.Inserted)
 print(ret)
 ret = atm.PINnumber("1234")
 print(ret)
+
 ret = atm.SelectAccount("123-4567")
 print(ret)
 ret = atm.SeeAccount()
 print(ret)
-'''
+
+ret = atm.SelectAccount("111-2222")
+print(ret)
+ret = atm.SeeAccount()
+print(ret)
+
+ret = atm.SelectAccount("333-4444")
+print(ret)
+ret = atm.SeeAccount()
+print(ret)
 
 '''
 
