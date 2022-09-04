@@ -34,6 +34,7 @@ class AccountInfo:
     def GetInfo(self):
         return self.balance, self.deposit, self.withdraw
 
+
 class AtmController:
     def __init__(self):
         self.PINNUM_LEN = 4
@@ -56,9 +57,8 @@ class AtmController:
 
         self.accountList = [self.account1, self.account2, self.account3]
 
-
     def InsertCard(self, card):
-        print("[STEP1] Insert Card")
+        print("[STEP1] Insert Card : %s" %(card))
         if card == "INSERT":
             self.cardStatus = CardStatus.Inserted
         elif card == "REJECT":
@@ -70,7 +70,7 @@ class AtmController:
         return self.ShowCardStatus(self.cardStatus)
 
     def PINnumber(self, pin):
-        print("[STEP2] PIN number")
+        print("[STEP2] PIN number : %s" %(pin))
         if self.cardStatus == CardStatus.NotInserted:
             self.pinStatus = PinStatus.Incorrect
             self.accountStatus == AccountStatus.NotSelected
@@ -92,11 +92,10 @@ class AtmController:
         if self.pinStatus == PinStatus.Incorrect:
             return self.ShowPinStatus(self.pinStatus)
         else:
-            return [a.name for a in self.accountList]
-
+            return self.ShowPinStatus(self.pinStatus) + " " + str([a.name for a in self.accountList])
 
     def SelectAccount(self, account):
-        print("[STEP3] Select Account")
+        print("[STEP3] Select Account : %s" %(account))
         if self.cardStatus == CardStatus.NotInserted:
             self.pinStatus = PinStatus.Incorrect
             self.accountStatus = AccountStatus.NotSelected
@@ -153,18 +152,18 @@ class AtmController:
 
     def ShowCardStatus(self, status):
         if status == CardStatus.NotInserted:
-            return "Please, Insert Card."
+            return " => Please, Insert Card."
         elif status == CardStatus.Inserted:
-            return "Card Detected, Please Input the pincode."
+            return " => Card Detected, Please Input the pincode."
 
     def ShowPinStatus(self, status):
         if status == PinStatus.Incorrect:
-            return "Invalid Pincode, Try Again."
+            return " => Invalid Pincode, Try Again."
         elif status == PinStatus.Correct:
-            return "Valid Pincode, Select Account Please."
+            return " => Valid Pincode, Select Account Please."
 
     def ShowSelectAccount(self, status):
         if status == AccountStatus.NotSelected:
-            return "Wrong Account Number, Check your Account again."
+            return " => Wrong Account Number, Check your Account again."
         elif status == AccountStatus.Selected:
-            return "Okay. You can see your account now"
+            return " => Okay. You can see your account now"

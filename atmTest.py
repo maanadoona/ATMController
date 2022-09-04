@@ -1,8 +1,9 @@
 from atmController import *
-
+import sys
 
 def TestCase1():
     # Test 1 : Normal Case
+    print("Test 1 : Normal Case")
 
     atm = AtmController()
 
@@ -41,6 +42,8 @@ def TestCase1():
 
 def TestCase2():
     # Test 2 : Card Insert Case
+    print("Test 2 : Card Insert Case")
+
     atm = AtmController()
 
     # Step 1-1 : Reject Card
@@ -70,6 +73,7 @@ def TestCase2():
 
 def TestCase3():
     # Test 3 : Pinnumber Case
+    print("Test 3 : Pinnumber Case")
 
     atm = AtmController()
 
@@ -99,6 +103,7 @@ def TestCase3():
 
 def TestCase4():
     # Test 4 : Account Case
+    print("Test 4 : Account Case")
 
     atm = AtmController()
 
@@ -148,6 +153,7 @@ def TestCase4():
 
 def TestCase5():
     # Test 5 : Step Flow Case
+    print("Test 5 : Step Flow Case")
 
     atm = AtmController()
 
@@ -195,8 +201,17 @@ def TestCase5():
     print(ret)
 
 
-#TestCase1()
-#TestCase2()
-#TestCase3()
-#TestCase4()
-#TestCase5()
+testcase = sys.argv[1]
+
+if testcase == '1':
+    TestCase1()
+elif testcase == '2':
+    TestCase2()
+elif testcase == '3':
+    TestCase3()
+elif testcase == '4':
+    TestCase4()
+elif testcase == '5':
+    TestCase5()
+else:
+    print("Please choose (1~5)")
