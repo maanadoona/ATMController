@@ -1,17 +1,17 @@
 # ATMcontroller
-
+* This program is a test project for checking personal coding skill. It's not a commercial program.
 
 ## Introduction
 
-* This program is a test project for checking personal coding skill. It's not a commercial program.
+* AMTcontroller is a virtual banking class for checking card insertion, pincode and choosing account and getting balance, deposit and withdraw.
 
-AMTcontroller is a virtual banking class for checking card insertion, pincode and choosing account and getting balance, deposit and withdraw.
-
-The Process follows below steps.
+* The Process follows below steps.
 
 ```bash
 Insert Card => PIN number => Select Account => See Balance/Deposit/Withdraw
 ```
+** If Card is rejected, You need to start from step 1 again.
+
 
 #### Step 1) Insert Card
 At first, You need to call the function of ```InsertCard``` with status value 'insert or not' when the card is inserted or rejected.
