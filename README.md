@@ -13,14 +13,15 @@ The Process follows below steps.
 Insert Card => PIN number => Select Account => See Balance/Deposit/Withdraw
 ```
 
-### Step 1) Insert Card
+#### Step 1) Insert Card
 At first, You need to call the function of ```bashInsertCard``` with status value 'insert or not' when the card is inserted or rejected.
 
-### Step 2) PIN number
+#### Step 2) PIN number
+Next, You call the function of ```PINnumber``` with status value
 
-### Step 3) Select Account
+#### Step 3) Select Account
 
-### Step 4) See Balance/Deposit/Withdraw
+#### Step 4) See Balance/Deposit/Withdraw
 
 
 ## API Usage
